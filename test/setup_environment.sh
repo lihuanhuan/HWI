@@ -154,6 +154,7 @@ if [[ -n ${build_onekey_1} || -n ${build_onekey_t} ]]; then
     fi
 
     if [[ -n ${build_onekey_t} ]]; then
+        rustup update
         rustup toolchain uninstall nightly
         rustup toolchain install nightly
         rustup default nightly

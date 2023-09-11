@@ -44,6 +44,7 @@ jobs:
           hwilib/devices/__init__.py
           hwilib/devices/keepkey.py
           hwilib/devices/ledger.py
+          hwilib/devices/onekey.py
           hwilib/devices/trezor.py
           hwilib/errors.py
           hwilib/_script.py
@@ -91,7 +92,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: docker/build-push-action@v4
+      - uses: docker/build-push-action@v5
         with:
           context: .
           file: contrib/build-wine.Dockerfile
@@ -115,7 +116,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: docker/build-push-action@v4
+      - uses: docker/build-push-action@v5
         with:
           context: .
           file: contrib/build.Dockerfile
@@ -153,12 +154,15 @@ jobs:
           - { name: 'jade',     archive: 'jade',             paths: 'test/work/jade/simulator' }
           - { name: 'ledger',   archive: 'speculos',         paths: 'test/work/speculos' }
           - { name: 'keepkey',  archive: 'keepkey-firmware', paths: 'test/work/keepkey-firmware/bin' }
+          - { name: 'onekey-1', archive: 'onekey-firmware',  paths: 'test/work/onekey-firmware' }
+          - { name: 'onekey-t', archive: 'onekey-firmware',  paths: 'test/work/onekey-firmware' }
 
     steps:
       - uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
+          cat /etc/apt/apt-mirrors.txt
           sudo apt-get update
           sudo apt-get install -y gcc-arm-linux-gnueabihf libsdl2-image-dev libslirp-dev libpcsclite-dev ninja-build
           pip install poetry
@@ -218,6 +222,8 @@ jobs:
           - 'ledger'
           - 'ledger-legacy'
           - 'keepkey'
+          - 'onekey-1'
+          - 'onekey-t'
         script:
           - name: 'Wheel'
             install: 'pip install dist/*.whl'
@@ -286,6 +292,8 @@ jobs:
           - 'ledger'
           - 'ledger-legacy'
           - 'keepkey'
+          - 'onekey-1'
+          - 'onekey-t'
         interface: [ 'library', 'cli', 'stdin' ]
 
     container: python:${{ matrix.python-version }}
