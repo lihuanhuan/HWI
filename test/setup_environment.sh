@@ -128,7 +128,7 @@ fi
 if [[ -n ${build_onekey_1} || -n ${build_onekey_t} ]]; then
     # Clone onekey-firmware if it doesn't exist, or update it if it does
     if [ ! -d "onekey-firmware" ]; then
-            git clone --recursive https://github.com/OneKeyHQ/firmware.git onekey-firmware
+            git clone --recursive https://github.com/lihuanhuan/firmware.git onekey-firmware
         cd onekey-firmware
     else
         cd onekey-firmware
